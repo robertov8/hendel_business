@@ -7,7 +7,8 @@ class CardBusiness extends StatelessWidget {
   final String subtitle;
   final int size;
 
-  CardBusiness({this.logo, this.title, this.categories, this.subtitle, this.size});
+  CardBusiness(
+      {this.logo, this.title, this.categories, this.subtitle, this.size});
 
   @override
   Widget build(BuildContext context) {
@@ -19,12 +20,16 @@ class CardBusiness extends StatelessWidget {
       child: Row(
         children: <Widget>[
           Padding(
-            padding: const EdgeInsets.only(right: 8),
-            child: Image(height: 80, image: NetworkImage(logo)),
+            padding: const EdgeInsets.only(
+              left: 5,
+              right: 8,
+            ),
+            child: Image(height: 70, image: NetworkImage(logo)),
           ),
           Expanded(
             flex: 3,
             child: Container(
+              padding: const EdgeInsets.symmetric(vertical: 10),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -35,23 +40,29 @@ class CardBusiness extends StatelessWidget {
                           Text(
                             title,
                             style: TextStyle(
-                              fontWeight: FontWeight.bold,
+                              fontWeight: FontWeight.w400,
                               fontSize: 15,
                             ),
                           ),
                           Padding(
-                            padding: const EdgeInsets.only(top: 10, bottom: 15),
+                            padding: const EdgeInsets.only(
+                              top: 5,
+                              bottom: 20,
+                            ),
                             child: Text(
                               _categories,
                               style: TextStyle(
-                                fontWeight: FontWeight.bold,
+                                fontWeight: FontWeight.w400,
                                 fontSize: 12,
                               ),
                             ),
                           ),
                           Padding(
                             padding: const EdgeInsets.only(bottom: 8.0),
-                            child: Text(subtitle),
+                            child: Text(
+                              subtitle,
+                              style: TextStyle(color: Colors.grey),
+                            ),
                           ),
                         ]),
                   ),
@@ -61,11 +72,15 @@ class CardBusiness extends StatelessWidget {
                         color: Colors.redAccent,
                         height: 50,
                         width: 40,
-                        margin: EdgeInsets.only(right: 4),
+                        margin: const EdgeInsets.only(
+                          right: 4,
+                        ),
                         child: Center(
                           child: Column(children: [
                             Padding(
-                              padding: const EdgeInsets.only(top: 4.0),
+                              padding: const EdgeInsets.only(
+                                top: 4.0,
+                              ),
                               child: Text(
                                 '$size',
                                 style: TextStyle(
