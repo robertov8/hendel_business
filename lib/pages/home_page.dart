@@ -69,8 +69,10 @@ class HomeState extends State<HomePage> {
                   scrollDirection: Axis.horizontal,
                   children: _categories.map((CategoryResponse item) {
                     return CardCategory(
+                      id: item.id,
                       image: item.image,
                       name: item.name,
+                      context: context
                     );
                   }).toList(),
                 )),

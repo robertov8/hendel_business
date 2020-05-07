@@ -16,7 +16,7 @@ class CardBusiness extends StatelessWidget {
 
     return Card(
       color: Colors.white,
-      elevation: 2,
+      elevation: 1,
       child: Row(
         children: <Widget>[
           Padding(
