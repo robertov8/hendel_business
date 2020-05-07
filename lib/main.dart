@@ -1,4 +1,4 @@
-import 'package:business/pages/home_page.dart';
+import 'package:business/menu_bottom.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primaryColor: Colors.white
       ),
-      home: HomePage(),
+      home: MenuBottom(),
     );
   }
 }
