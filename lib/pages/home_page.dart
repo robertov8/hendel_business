@@ -1,5 +1,7 @@
+import 'package:business/services/response/CompanyResponse.dart';
 import 'package:flutter/material.dart';
 import 'package:business/components/CardBusiness.dart';
+import 'package:business/services/company_service.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -7,20 +9,43 @@ class HomePage extends StatefulWidget {
 }
 
 class HomeState extends State<HomePage> {
-  List<Widget> _business = <Widget>[];
+  final _service = CompanyService();
+
+  List<CompanyResponse> _companies = [];
+
+  @override
+  void initState() {
+    super.initState();
+
+    getData();
+  }
+
+  Future<Null> getData() async {
+    List<CompanyResponse> companies = await _service.getCompanies();
+
+    setState(() {
+      this._companies.addAll(companies);
+    });
+  }
 
   Widget _buildBusiness() {
-    for (var i in [0, 1, 2, 3 ,4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]) {
-      _business.add(CardBusiness(
-        title: 'Entry $i',
-        categories: 'Entry $i, Entry $i, Entry $i',
-        subtitle: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. $i'
-      ));
-    }
-
-    print(_business);
-
-    return ListView(padding: const EdgeInsets.all(8), children: _business);
+    return Container(
+      child: ListView.builder(
+        padding: const EdgeInsets.all(8),
+        itemCount: _companies.length,
+        itemBuilder: (BuildContext context, int i) {
+          return Container(
+            child: CardBusiness(
+              logo: _companies[i].logo,
+              title: _companies[i].fantasyName,
+              categories: _companies[i].categories,
+              subtitle: _companies[i].description,
+              size: _companies[i].size,
+            ),
+          );
+        },
+      ),
+    );
   }
 
   @override
@@ -29,10 +54,7 @@ class HomeState extends State<HomePage> {
       appBar: AppBar(
         actions: <Widget>[],
       ),
-      body: Center(
-        child: _buildBusiness(),
-      ),
-      backgroundColor: const Color(0xffdbdadb),
+      body: _buildBusiness(),
     );
   }
 }

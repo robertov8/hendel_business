@@ -1,54 +1,94 @@
 import 'package:flutter/material.dart';
 
 class CardBusiness extends StatelessWidget {
+  final String logo;
   final String title;
-  final String categories;
+  final List categories;
   final String subtitle;
+  final int size;
 
-  CardBusiness({this.title, this.categories, this.subtitle});
+  CardBusiness({this.logo, this.title, this.categories, this.subtitle, this.size});
 
   @override
   Widget build(BuildContext context) {
+    String _categories = this.categories.map((e) => '${e['name']}').join(', ');
+
     return Card(
       color: Colors.white,
-      elevation: 1,
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Expanded(flex: 1, child: Container(child: FlutterLogo(size: 50.0))),
-            Expanded(
-              flex: 3,
-              child: Container(
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              title,
-                              style: TextStyle(fontWeight: FontWeight.bold),
+      elevation: 2,
+      child: Row(
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.only(right: 8),
+            child: Image(height: 80, image: NetworkImage(logo)),
+          ),
+          Expanded(
+            flex: 3,
+            child: Container(
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            title,
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 15,
                             ),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.only(top: 5, bottom: 15),
-                              child: Text(
-                                categories,
-                                style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 10, bottom: 15),
+                            child: Text(
+                              _categories,
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 12,
                               ),
                             ),
-                            Text(subtitle),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 8.0),
+                            child: Text(subtitle),
+                          ),
+                        ]),
+                  ),
+                  Row(
+                    children: [
+                      Container(
+                        color: Colors.redAccent,
+                        height: 50,
+                        width: 40,
+                        margin: EdgeInsets.only(right: 4),
+                        child: Center(
+                          child: Column(children: [
+                            Padding(
+                              padding: const EdgeInsets.only(top: 4.0),
+                              child: Text(
+                                '$size',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16,
+                                ),
+                              ),
+                            ),
+                            Text(
+                              '...',
+                              style: TextStyle(color: Colors.white),
+                            )
                           ]),
-                    ),
-                    Container(child: FlutterLogo(size: 30.0))
-                  ],
-                ),
+                        ),
+                      ),
+                    ],
+                  )
+                ],
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
