@@ -10,13 +10,18 @@ class CardCategory extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.all(10),
-      padding: const EdgeInsets.only(left: 10, right: 10),
+      padding: const EdgeInsets.only(left: 2, right: 2),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           InkWell(
             onTap: () {},
-            child: ClipRRect(borderRadius: new BorderRadius.circular(5.0), child: Image(height: 70, image: NetworkImage(image))),
+            child: ClipRRect(
+                borderRadius: new BorderRadius.circular(5.0),
+                child: Image(
+                  height: 60,
+                  image: NetworkImage(image),
+                )),
           ),
           Center(
             child: Text(name, style: TextStyle(fontWeight: FontWeight.w400)),

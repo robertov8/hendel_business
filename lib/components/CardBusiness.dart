@@ -69,7 +69,7 @@ class CardBusiness extends StatelessWidget {
                   Row(
                     children: [
                       Container(
-                        color: Colors.redAccent,
+                        color: Color.fromRGBO(255, 105, 85, 1),
                         height: 50,
                         width: 40,
                         margin: const EdgeInsets.only(

@@ -50,7 +50,17 @@ class HomeState extends State<HomePage> {
             floating: true,
             pinned: false,
             stretch: true,
-            title: TextField(),
+            forceElevated: true,
+            title: TextFormField(
+              decoration: const InputDecoration(
+                hintText: 'Pesquisar',
+                border: InputBorder.none,
+                icon: Icon(
+                  Icons.search,
+                  color: Color.fromRGBO(255, 105, 85, 1),
+                ),
+              ),
+            ),
           ),
           SliverToBoxAdapter(
             child: Container(
