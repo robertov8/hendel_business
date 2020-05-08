@@ -12,7 +12,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Hendel Business',
       theme: ThemeData(
-        primaryColor: Colors.white
+        primaryColor: Colors.white,
       ),
       home: MenuBottom(),
     );

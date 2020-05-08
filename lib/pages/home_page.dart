@@ -1,3 +1,4 @@
+import 'package:business/pages/search_page.dart';
 import 'package:flutter/material.dart';
 import 'package:business/services/company_service.dart';
 import 'package:business/services/category_service.dart';
@@ -8,10 +9,10 @@ import 'package:business/components/CardCategory.dart';
 
 class HomePage extends StatefulWidget {
   @override
-  HomeState createState() => HomeState();
+  _HomeState createState() => _HomeState();
 }
 
-class HomeState extends State<HomePage> {
+class _HomeState extends State<HomePage> {
   List<CompanyResponse> _companies = [];
   List<CategoryResponse> _categories = [];
 
@@ -19,11 +20,11 @@ class HomeState extends State<HomePage> {
   void initState() {
     super.initState();
 
-    getDataCompanies();
-    getCategories();
+    _getDataCompanies();
+    _getCategories();
   }
 
-  Future<Null> getDataCompanies() async {
+  Future<Null> _getDataCompanies() async {
     List<CompanyResponse> companies = await CompanyService().getCompanies();
 
     setState(() {
@@ -31,7 +32,7 @@ class HomeState extends State<HomePage> {
     });
   }
 
-  Future<Null> getCategories() async {
+  Future<Null> _getCategories() async {
     List<CategoryResponse> categories =
         await CategoriesService().getCategories();
 
@@ -43,15 +44,16 @@ class HomeState extends State<HomePage> {
   void _pushCompaniesByCategory({int id, String name}) async {
     List<CompanyResponse> companiesFiltered = [];
 
-    for (CompanyResponse i in _companies) {
-      var categoriesMatch = i.categories.where((el) {
-        return el['id'] == id;
+
+    _companies.forEach((CompanyResponse company) {
+      var categoriesMatch = company.categories.where((category) {
+        return category['id'] == id;
       });
 
       if (categoriesMatch.isNotEmpty) {
-        companiesFiltered.add(i);
+        companiesFiltered.add(company);
       }
-    }
+    });
 
     Navigator.of(context).push(
       MaterialPageRoute(builder: (BuildContext context) {
@@ -76,6 +78,15 @@ class HomeState extends State<HomePage> {
     );
   }
 
+  void _pushSearchPage() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => SearchPage(companies: _companies),
+      ),
+    );
+  }
+
   Widget _customScrollView() {
     return CustomScrollView(slivers: [
       SliverAppBar(
@@ -84,13 +95,32 @@ class HomeState extends State<HomePage> {
         pinned: false,
         stretch: true,
         forceElevated: true,
-        title: TextFormField(
-          decoration: const InputDecoration(
-            hintText: 'Pesquisar',
-            border: InputBorder.none,
-            icon: Icon(
-              Icons.search,
-              color: Color.fromRGBO(255, 105, 85, 1),
+        leading: InkWell(
+          onTap: () => _pushSearchPage(),
+          child: Icon(
+            Icons.search,
+            color: Color.fromRGBO(255, 105, 85, 1),
+          ),
+        ),
+        title: InkWell(
+          splashColor: Colors.transparent,
+          highlightColor: Colors.transparent,
+          onTap: () => _pushSearchPage(),
+          child: Container(
+            width: double.infinity,
+            padding: EdgeInsets.only(
+              top: 20,
+              left: 0,
+              bottom: 20,
+              right: 20,
+            ),
+            child: Text(
+              'Pesquisar',
+              style: TextStyle(
+                fontWeight: FontWeight.normal,
+                color: Colors.grey,
+                fontSize: 16,
+              ),
             ),
           ),
         ),
