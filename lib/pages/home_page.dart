@@ -44,15 +44,16 @@ class _HomeState extends State<HomePage> {
   void _pushCompaniesByCategory({int id, String name}) async {
     List<CompanyResponse> companiesFiltered = [];
 
-    for (CompanyResponse i in _companies) {
-      var categoriesMatch = i.categories.where((el) {
-        return el['id'] == id;
+
+    _companies.forEach((CompanyResponse company) {
+      var categoriesMatch = company.categories.where((category) {
+        return category['id'] == id;
       });
 
       if (categoriesMatch.isNotEmpty) {
-        companiesFiltered.add(i);
+        companiesFiltered.add(company);
       }
-    }
+    });
 
     Navigator.of(context).push(
       MaterialPageRoute(builder: (BuildContext context) {
@@ -81,7 +82,7 @@ class _HomeState extends State<HomePage> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (_) => SearchPage(),
+        builder: (_) => SearchPage(companies: _companies),
       ),
     );
   }
@@ -102,9 +103,17 @@ class _HomeState extends State<HomePage> {
           ),
         ),
         title: InkWell(
+          splashColor: Colors.transparent,
+          highlightColor: Colors.transparent,
           onTap: () => _pushSearchPage(),
           child: Container(
             width: double.infinity,
+            padding: EdgeInsets.only(
+              top: 20,
+              left: 0,
+              bottom: 20,
+              right: 20,
+            ),
             child: Text(
               'Pesquisar',
               style: TextStyle(

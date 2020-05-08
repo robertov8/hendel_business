@@ -2,8 +2,14 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:business/components/SearchHistory.dart';
+import 'package:business/components/CardBusiness.dart';
+import 'package:business/services/response/CompanyResponse.dart';
 
 class SearchPage extends StatefulWidget {
+  final List<CompanyResponse> companies;
+
+  SearchPage({this.companies});
+
   @override
   _SearchPageState createState() => _SearchPageState();
 }
@@ -19,7 +25,7 @@ class _SearchPageState extends State<SearchPage> {
     super.initState();
 
     _history = _prefs.then((SharedPreferences prefs) {
-      return prefs.getStringList('history');
+      return prefs.getStringList('history') ?? [];
     });
   }
 
@@ -42,10 +48,50 @@ class _SearchPageState extends State<SearchPage> {
 
       _searchText.clear();
     });
+
+    _onSearch(text);
   }
 
   void _onSearch(String text) {
-    print('_onSearch $text');
+    String term = text.toLowerCase();
+    List<CompanyResponse> companiesFiltered = [];
+
+    widget.companies.forEach((CompanyResponse company) {
+      if (company.fantasyName.toLowerCase().contains(term)) {
+        companiesFiltered.add(company);
+        return;
+      }
+
+      var categoriesMatch = company.categories.where((el) {
+        return el['name'].toLowerCase().contains(term);
+      });
+
+      if (categoriesMatch.isNotEmpty) {
+        companiesFiltered.add(company);
+      }
+    });
+
+    Navigator.of(context).push(
+      MaterialPageRoute(builder: (BuildContext context) {
+        return Scaffold(
+          appBar: AppBar(title: Text(text)),
+          body: Padding(
+            padding: EdgeInsets.only(top: 8),
+            child: ListView(
+              children: companiesFiltered.map((CompanyResponse company) {
+                return CardBusiness(
+                  logo: company.logo,
+                  title: company.fantasyName,
+                  categories: company.categories,
+                  subtitle: company.description,
+                  size: company.size,
+                );
+              }).toList(),
+            ),
+          ),
+        );
+      }),
+    );
   }
 
   void _removeRequestSearch(String text) async {
@@ -106,15 +152,17 @@ class _SearchPageState extends State<SearchPage> {
                           return Text('');
                         }
 
-                        return ListView(
-                          shrinkWrap: true,
-                          children: snapshot.data
-                              .map((history) => SearchHistory(
-                                    name: history,
-                                    onSearch: _onSearch,
-                                    onDelete: _removeRequestSearch,
-                                  ))
-                              .toList(),
+                        return Flexible(
+                          child: ListView(
+                            shrinkWrap: true,
+                            children: snapshot.data
+                                .map((history) => SearchHistory(
+                                      name: history,
+                                      onSearch: _onSearch,
+                                      onDelete: _removeRequestSearch,
+                                    ))
+                                .toList(),
+                          ),
                         );
                       }
                   }
