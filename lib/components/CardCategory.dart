@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 
 class CardCategory extends StatelessWidget {
+  final int id;
   final String image;
   final String name;
+  final String tags;
 
-  CardCategory({this.image, this.name = ''});
+  final Function onTap;
+
+  CardCategory({this.id, this.image, this.name = '', this.tags, this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -15,16 +19,20 @@ class CardCategory extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           InkWell(
-            onTap: () {},
+            onTap: () => onTap(id: id, name: name),
             child: ClipRRect(
-                borderRadius: new BorderRadius.circular(5.0),
-                child: Image(
-                  height: 60,
-                  image: NetworkImage(image),
-                )),
+              borderRadius: new BorderRadius.circular(5.0),
+              child: Image(
+                height: 60,
+                image: NetworkImage(image),
+              ),
+            ),
           ),
           Center(
-            child: Text(name, style: TextStyle(fontWeight: FontWeight.w400)),
+            child: Text(
+              name,
+              style: TextStyle(fontWeight: FontWeight.w400),
+            ),
           )
         ],
       ),
