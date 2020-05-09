@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:get_it/get_it.dart';
 import 'package:business/controller/company_controller.dart';
 import 'package:business/controller/history_controller.dart';
 import 'package:business/components/SearchHistory.dart';
@@ -8,16 +9,12 @@ import 'package:business/components/CardBusiness.dart';
 import 'package:business/services/response/CompanyResponse.dart';
 
 class SearchPage extends StatefulWidget {
-  final List<CompanyResponse> companies;
-
-  SearchPage({this.companies});
-
   @override
   _SearchPageState createState() => _SearchPageState();
 }
 
 class _SearchPageState extends State<SearchPage> {
-  final companyController = CompanyController();
+  final companyController = GetIt.I.get<CompanyController>();
   final historyController = HistoryController();
 
   final _searchText = TextEditingController();
@@ -46,7 +43,7 @@ class _SearchPageState extends State<SearchPage> {
     String term = text.toLowerCase();
     List<CompanyResponse> companiesFiltered = [];
 
-    widget.companies.forEach((CompanyResponse company) {
+    companyController.companies.forEach((CompanyResponse company) {
       if (company.fantasyName.toLowerCase().contains(term)) {
         companiesFiltered.add(company);
         return;

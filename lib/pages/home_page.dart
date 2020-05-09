@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:get_it/get_it.dart';
 import 'package:business/components/CardBusiness.dart';
 import 'package:business/components/CardCategory.dart';
 import 'package:business/controller/category_controller.dart';
@@ -14,7 +15,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomeState extends State<HomePage> {
-  final companyController = CompanyController();
+  final companyController = GetIt.I.get<CompanyController>();
   final categoryController = CategoryController();
 
   @override
@@ -60,7 +61,7 @@ class _HomeState extends State<HomePage> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (_) => SearchPage(companies: companyController.companies),
+        builder: (_) => SearchPage(),
       ),
     );
   }
