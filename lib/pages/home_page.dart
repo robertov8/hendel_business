@@ -1,11 +1,12 @@
-import 'package:business/pages/search_page.dart';
 import 'package:flutter/material.dart';
-import 'package:business/services/company_service.dart';
-import 'package:business/services/category_service.dart';
-import 'package:business/services/response/CompanyResponse.dart';
-import 'package:business/services/response/CategoryResponse.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:business/components/CardBusiness.dart';
 import 'package:business/components/CardCategory.dart';
+import 'package:business/controller/category_controller.dart';
+import 'package:business/controller/company_controller.dart';
+import 'package:business/pages/search_page.dart';
+import 'package:business/services/response/CategoryResponse.dart';
+import 'package:business/services/response/CompanyResponse.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -13,47 +14,24 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomeState extends State<HomePage> {
-  List<CompanyResponse> _companies = [];
-  List<CategoryResponse> _categories = [];
+  final companyController = CompanyController();
+  final categoryController = CategoryController();
 
   @override
   void initState() {
     super.initState();
 
-    _getDataCompanies();
-    _getCategories();
+    _getData();
   }
 
-  Future<Null> _getDataCompanies() async {
-    List<CompanyResponse> companies = await CompanyService().getCompanies();
-
-    setState(() {
-      this._companies.addAll(companies);
-    });
-  }
-
-  Future<Null> _getCategories() async {
-    List<CategoryResponse> categories =
-        await CategoriesService().getCategories();
-
-    setState(() {
-      this._categories.addAll(categories);
-    });
+  Future<Null> _getData() async {
+    companyController.getDataCompanies();
+    categoryController.getCategories();
   }
 
   void _pushCompaniesByCategory({int id, String name}) async {
-    List<CompanyResponse> companiesFiltered = [];
-
-
-    _companies.forEach((CompanyResponse company) {
-      var categoriesMatch = company.categories.where((category) {
-        return category['id'] == id;
-      });
-
-      if (categoriesMatch.isNotEmpty) {
-        companiesFiltered.add(company);
-      }
-    });
+    List<CompanyResponse> companiesFiltered =
+        companyController.getCompaniesByCategory(id);
 
     Navigator.of(context).push(
       MaterialPageRoute(builder: (BuildContext context) {
@@ -82,7 +60,7 @@ class _HomeState extends State<HomePage> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (_) => SearchPage(companies: _companies),
+        builder: (_) => SearchPage(companies: companyController.companies),
       ),
     );
   }
@@ -126,19 +104,25 @@ class _HomeState extends State<HomePage> {
         ),
       ),
       SliverToBoxAdapter(
-        child: Container(
-          height: 120,
-          child: ListView(
-            scrollDirection: Axis.horizontal,
-            children: _categories.map((CategoryResponse item) {
-              return CardCategory(
-                  id: item.id,
-                  image: item.image,
-                  name: item.name,
-                  onTap: _pushCompaniesByCategory);
-            }).toList(),
-          ),
-        ),
+        child: Observer(builder: (_) {
+          return categoryController.loading
+              ? CircularProgressIndicator()
+              : Container(
+                  height: 120,
+                  child: ListView(
+                    scrollDirection: Axis.horizontal,
+                    children: categoryController.categories
+                        .map((CategoryResponse item) {
+                      return CardCategory(
+                        id: item.id,
+                        image: item.image,
+                        name: item.name,
+                        onTap: _pushCompaniesByCategory,
+                      );
+                    }).toList(),
+                  ),
+                );
+        }),
       ),
       SliverList(
         delegate: SliverChildListDelegate([
@@ -155,14 +139,14 @@ class _HomeState extends State<HomePage> {
         delegate: SliverChildBuilderDelegate(
           (BuildContext context, int i) {
             return CardBusiness(
-              logo: _companies[i].logo,
-              title: _companies[i].fantasyName,
-              categories: _companies[i].categories,
-              subtitle: _companies[i].description,
-              size: _companies[i].size,
+              logo: companyController.companies[i].logo,
+              title: companyController.companies[i].fantasyName,
+              categories: companyController.companies[i].categories,
+              subtitle: companyController.companies[i].description,
+              size: companyController.companies[i].size,
             );
           },
-          childCount: _companies.length,
+          childCount: companyController.companies.length,
         ),
       ),
     ]);
@@ -171,16 +155,23 @@ class _HomeState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: this._categories.isNotEmpty
-          ? _customScrollView()
-          : Center(
-              child: CircularProgressIndicator(
-                strokeWidth: 2,
-                valueColor: AlwaysStoppedAnimation<Color>(
-                  Color.fromRGBO(255, 105, 85, 1),
-                ),
-              ),
-            ),
+      body: Container(
+        child: Observer(builder: (_) {
+          print(companyController.loading);
+
+//          return _customScrollView();
+          return companyController.loading
+              ? Center(
+                  child: CircularProgressIndicator(
+                    strokeWidth: 2,
+                    valueColor: AlwaysStoppedAnimation<Color>(
+                      Color.fromRGBO(255, 105, 85, 1),
+                    ),
+                  ),
+                )
+              : _customScrollView();
+        }),
+      ),
     );
   }
 }
