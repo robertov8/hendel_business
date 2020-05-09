@@ -1,6 +1,6 @@
 import 'package:mobx/mobx.dart';
-import 'package:business/services/response/CategoryResponse.dart';
-import 'package:business/services/category_service.dart';
+import 'package:business/app/services/response/CategoryResponse.dart';
+import 'package:business/app/services/category_service.dart';
 
 part 'category_controller.g.dart';
 

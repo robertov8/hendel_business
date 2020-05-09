@@ -2,11 +2,11 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
-import 'package:business/controller/company_controller.dart';
-import 'package:business/controller/history_controller.dart';
-import 'package:business/components/SearchHistory.dart';
-import 'package:business/components/CardBusiness.dart';
-import 'package:business/services/response/CompanyResponse.dart';
+import 'package:business/app/controller/company_controller.dart';
+import 'package:business/app/controller/history_controller.dart';
+import 'package:business/app/components/SearchHistory.dart';
+import 'package:business/app/components/CardBusiness.dart';
+import 'package:business/app/services/response/CompanyResponse.dart';
 
 class SearchPage extends StatefulWidget {
   @override

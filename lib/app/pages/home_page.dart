@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
-import 'package:business/components/CardBusiness.dart';
-import 'package:business/components/CardCategory.dart';
-import 'package:business/controller/category_controller.dart';
-import 'package:business/controller/company_controller.dart';
-import 'package:business/pages/search_page.dart';
-import 'package:business/services/response/CategoryResponse.dart';
-import 'package:business/services/response/CompanyResponse.dart';
+import 'package:business/app/components/CardBusiness.dart';
+import 'package:business/app/components/CardCategory.dart';
+import 'package:business/app/controller/category_controller.dart';
+import 'package:business/app/controller/company_controller.dart';
+import 'package:business/app/pages/search_page.dart';
+import 'package:business/app/services/response/CategoryResponse.dart';
+import 'package:business/app/services/response/CompanyResponse.dart';
 
 class HomePage extends StatefulWidget {
   @override

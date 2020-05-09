@@ -1,6 +1,6 @@
 import 'package:mobx/mobx.dart';
-import 'package:business/services/response/CompanyResponse.dart';
-import 'package:business/services/company_service.dart';
+import 'package:business/app/services/response/CompanyResponse.dart';
+import 'package:business/app/services/company_service.dart';
 
 part 'company_controller.g.dart';
 

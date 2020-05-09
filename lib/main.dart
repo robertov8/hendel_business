@@ -1,8 +1,8 @@
 import 'package:get_it/get_it.dart';
 import 'package:flutter/material.dart';
-import 'package:business/menu_bottom.dart';
-import 'package:business/controller/company_controller.dart';
-import 'package:business/controller/category_controller.dart';
+import 'package:business/app/menu_bottom.dart';
+import 'package:business/app/controller/company_controller.dart';
+import 'package:business/app/controller/category_controller.dart';
 
 void main() {
   GetIt getIt = GetIt.I;

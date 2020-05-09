@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
-import 'package:business/services/response/CompanyResponse.dart';
-import 'package:business/services/service.dart';
+import 'package:business/app/services/response/CompanyResponse.dart';
+import 'package:business/app/services/service.dart';
 
 class CompanyService extends Service {
   List<CompanyResponse> data = [];

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:business/pages/home_page.dart';
+import 'package:business/app/pages/home_page.dart';
 
 class MenuBottom extends StatefulWidget {
   @override

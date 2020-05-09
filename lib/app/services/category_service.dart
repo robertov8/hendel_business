@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
-import 'package:business/services/service.dart';
-import 'package:business/services/response/CategoryResponse.dart';
+import 'package:business/app/services/service.dart';
+import 'package:business/app/services/response/CategoryResponse.dart';
 
 class CategoriesService extends Service {
   List<CategoryResponse> data = [];
