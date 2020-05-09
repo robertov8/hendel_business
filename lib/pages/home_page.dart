@@ -157,9 +157,6 @@ class _HomeState extends State<HomePage> {
     return Scaffold(
       body: Container(
         child: Observer(builder: (_) {
-          print(companyController.loading);
-
-//          return _customScrollView();
           return companyController.loading
               ? Center(
                   child: CircularProgressIndicator(
