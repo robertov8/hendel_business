@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 import 'package:get_it/get_it.dart';
 import 'package:business/app/components/CardBusiness.dart';
 import 'package:business/app/components/CardCategory.dart';
 import 'package:business/app/controller/category_controller.dart';
 import 'package:business/app/controller/company_controller.dart';
-import 'package:business/app/pages/search_page.dart';
 import 'package:business/app/services/response/CategoryResponse.dart';
 import 'package:business/app/services/response/CompanyResponse.dart';
 
@@ -58,12 +58,8 @@ class _HomeState extends State<HomePage> {
   }
 
   void _pushSearchPage() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (_) => SearchPage(),
-      ),
-    );
+    // Navigator.pushNamed(context, '/search');
+    Modular.to.pushNamed('/search');
   }
 
   Widget _customScrollView() {
